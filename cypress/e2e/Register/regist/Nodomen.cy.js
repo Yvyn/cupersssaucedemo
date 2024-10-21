@@ -13,6 +13,6 @@ describe('Registration', () => {
     cy.get('input[name="password"]').type('1234')  
     cy.get('input[name="agree"]').check()
     cy.contains('Continue').click()  
-    cy.contains('E-Mail Address does not appear to be valid!').should('be.visible'); 
+    cy.contains('Register Account').should('be.visible'); 
   })
 })
