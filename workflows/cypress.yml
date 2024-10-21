@@ -1,0 +1,28 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches:
+      - main  # Запуск тестів при пуші в основну гілку
+  pull_request:
+    branches:
+      - main  # Запуск тестів при створенні pull request в основну гілку
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'v20.16.0'  # Вкажіть версію Node.js, яку ви використовуєте
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npx cypress run
