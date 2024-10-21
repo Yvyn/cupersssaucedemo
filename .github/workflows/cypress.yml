@@ -3,13 +3,13 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - main  # Запуск тестів при пуші в основну гілку
+      - main
   pull_request:
     branches:
-      - main  # Запуск тестів при створенні pull request в основну гілку
+      - main
 
 jobs:
-  cypress:
+  cypress-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,10 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 'v20.16.0'  # Вкажіть версію Node.js, яку ви використовуєте
+          node-version: '16'
 
       - name: Install dependencies
         run: npm install
+
+      - name: Install Cypress
+        run: npm install cypress --save-dev
 
       - name: Run Cypress tests
         run: npx cypress run
