@@ -1,7 +1,6 @@
 describe("Add multiple products to your cart", () => {
   it("Add multiple products to your cart", () => {
-    cy.viewport(1440, 900);
-    cy.visit("https://demo.opencart.com/");
+    cy.visit("/");
     cy.location("protocol").should("eq", "https:");
 
     cy.contains("My Account").click();
