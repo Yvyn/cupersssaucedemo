@@ -1,5 +1,10 @@
 describe("Like functionality", () => {
+  let userData; // оголошення змінної для даних користувача
+
   beforeEach(() => {
+    cy.fixture("example").then((data) => {
+      userData = data;
+    });
     cy.visit("/");
     cy.location("protocol").should("eq", "https:");
   });
@@ -7,8 +12,8 @@ describe("Like functionality", () => {
   function login() {
     cy.contains("My Account").click();
     cy.contains("Login").click();
-    cy.get("#input-email").type("testh@example.com");
-    cy.get("#input-password").type("1234");
+    cy.get("#input-email").type(userData.email);
+    cy.get("#input-password").type(userData.password);
     cy.get("#form-login > .text-end > .btn").click();
     cy.contains("My Account").should("be.visible");
   }
