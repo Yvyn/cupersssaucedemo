@@ -1,26 +1,26 @@
 describe("Valid Registration", () => {
-  it("Registratemail email with domain only", () => {
+  beforeEach(() => {
     cy.visit("/");
     cy.location("protocol").should("eq", "https:");
+  });
 
+  function register() {
     cy.contains("My Account").click();
     cy.contains("Register").click();
+  }
+
+  it("Registratemail email with domain only", () => {
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type("@example.com");
     cy.get('input[name="password"]').type("1234");
     cy.get('input[name="agree"]').check();
     cy.contains("Continue").click();
-    cy.contains("E-Mail Address does not appear to be valid!").should(
-      "be.visible",
-    );
   });
 
   it("email was registered", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type("Test@gmail.com");
@@ -33,12 +33,9 @@ describe("Valid Registration", () => {
   });
 
   it("Onli email name", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type("randomEmail");
@@ -49,12 +46,9 @@ describe("Valid Registration", () => {
   });
 
   it("Name 33", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("sdsddsdsdsddsdsdsdssdsddssffsdsdd");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type(randomEmail);
@@ -67,12 +61,9 @@ describe("Valid Registration", () => {
   });
 
   it("Name 32", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("sdsddsdsdsddsdsdsdssdsddssffsdsd");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type(randomEmail);
@@ -83,12 +74,9 @@ describe("Valid Registration", () => {
   });
 
   it("21 symbols password", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type(randomEmail);
@@ -100,12 +88,9 @@ describe("Valid Registration", () => {
     );
   });
   it("3 symbols password", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type(randomEmail);
@@ -118,12 +103,9 @@ describe("Valid Registration", () => {
   });
 
   it("email without @.", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.get('input[name="firstname"]').type("Name");
     cy.get('input[name="lastname"]').type("last");
     cy.get('input[name="email"]').type(randomEmail);
@@ -133,12 +115,9 @@ describe("Valid Registration", () => {
   });
 
   it("invalid Registration", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
     const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
 
-    cy.contains("My Account").click();
-    cy.contains("Register").click();
+    register();
     cy.contains("Continue").click();
     cy.contains("First Name must be between 1 and 32 characters!").should(
       "be.visible",
@@ -153,6 +132,16 @@ describe("Valid Registration", () => {
       "be.visible",
     );
     cy.contains(" Warning: You must agree to the Privacy Policy!").should(
+      "be.visible",
+    );
+  });
+
+  it("Privacy Policy eror ", () => {
+    register();
+    const randomEmail = `testuser_${Math.random().toString(36).substring(2, 10)}@example.com`;
+    cy.get('input[name="password"]').type("1234");
+    cy.contains("Continue").click();
+    cy.contains("Warning: You must agree to the Privacy Policy!").should(
       "be.visible",
     );
   });

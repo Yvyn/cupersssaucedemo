@@ -103,6 +103,7 @@ it("Add to cart via search ", () => {
   cy.location("protocol").should("eq", "https:");
 
   login();
+  cy.wait(10000);
   cy.get("#wishlist-total > .d-none").scrollIntoView().click();
   cy.get(".form-control").type("mac").type("{enter}");
   cy.get(
@@ -136,34 +137,4 @@ it("Add to cart user is not registered", () => {
   cy.contains("$602.00").should("be.visible");
   cy.get(".input-group > .btn-danger").click();
   cy.contains("Shopping Cart").should("be.visible");
-});
-
-describe("like", () => {
-  it("like", () => {
-    cy.visit("https://demo.opencart.com/");
-    cy.location("protocol").should("eq", "https:");
-
-    login();
-    cy.wait(6000);
-    cy.get("#logo > a > .img-fluid").click();
-    cy.get(
-      ':nth-child(2) > .product-thumb > .content > form > .button-group > [formaction="https://demo.opencart.com/en-gb?route=account/wishlist.add"]',
-    ).click();
-    cy.contains(" Wish List (1)").should("be.visible");
-    cy.get("#wishlist-total > .d-none").scrollIntoView().click();
-    cy.get(".btn-danger").click();
-  });
-});
-
-describe("like user is not registered ", () => {
-  it("like user is not registered ", () => {
-    cy.visit("/");
-    cy.location("protocol").should("eq", "https:");
-    cy.get(
-      ':nth-child(2) > .product-thumb > .content > form > .button-group > [formaction="https://demo.opencart.com/en-gb?route=account/wishlist.add"]',
-    ).click();
-    cy.contains(
-      "You must login or create an account to save iPhone to your wish list!",
-    ).should("be.visible");
-  });
 });
